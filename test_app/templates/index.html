@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Expense Tracker</title>
+    <!-- Include Pure CSS framework -->
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css">
+</head>
+<body>
+    <div class="pure-u-1 pure-u-md-2-3 pure-u-lg-1-2" style="margin: 0 auto; padding: 20px;">
+        <h2>Expense Tracker</h2>
+
+        <!-- Form to add new expenses, pointing to the Django view -->
+        <form class="pure-form pure-form-stacked" method="POST" action="{% url 'add_expense' %}">
+            {% csrf_token %}
+            <fieldset>
+                <legend>Add New Expense</legend>
+
+                <label>Expense Name</label>
+                <input type="text" placeholder="Expense name" class="pure-input-1" required>
+
+                <label>Amount</label>
+                <input type="number" step="0.01" placeholder="Amount" class="pure-input-1" required>
+
+                <label for="expense-date">Date</label>
+                <input type="date" class="pure-input-1" required>
+
+                <button type="submit" class="pure-button pure-button-primary">Add Expense</button>
+            </fieldset>
+        </form>
+
+        <!-- Table to display existing expenses -->
+        <h3>Expense List</h3>
+        <table class="pure-table pure-table-horizontal pure-table-bordered">
+            <thead>
+                <tr>
+                    <th>Expense Name</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for expense in expenses %}
+                <tr>
+                    <td>{{ expense.name }}</td>
+                    <td>${{ expense.amount }}</td>
+                    <td>{{ expense.date | date:"m/d/Y" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
